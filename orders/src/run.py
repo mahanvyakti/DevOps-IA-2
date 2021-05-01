@@ -17,10 +17,8 @@ def all_orders():
 
 @app.route('/order/<int:orderId>', methods=['GET'])
 def get_order(orderId):
-    print("Orders Data")
     search_result = list(filter(lambda order: order['id'] == orderId, data))
     if search_result == [] or search_result is None:
-        print("Empty search result")
         return {'error':'Order Not Found!'}, 200
     
     found_order = search_result[0]
