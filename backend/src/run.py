@@ -56,6 +56,17 @@ def add_item(item_id):
 
     return jsonify(data), 200
 
+@app.route('/item/<int:item_id>', methods=['PUT'])
+def update_item(item_id):
+    payload = request.get_json(force=True)
+    
+    desc = payload.get('desc', '')  
+    updated_item =  {'desc':desc, 'id':item_id,}
+    
+    data = requests.put('http://localhost:5002/item/{}'.format(item_id), json=updated_item).json()
+
+    return jsonify(data), 200
+
 @app.route('/delete/<int:order_id>', methods=['DELETE'])
 def delete_order(order_id):
     data = requests.delete('http://localhost:5001/delete/{}'.format(order_id)).json()

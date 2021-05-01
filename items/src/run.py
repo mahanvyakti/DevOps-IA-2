@@ -42,6 +42,24 @@ def add_item(item_id):
     
     return {'error':'Item with given id already exists!'}, 200
 
+@app.route('/item/<int:item_id>', methods=['PUT'])
+def update_item(item_id):
+    json = request.get_json()
+    desc = json.get('desc', '')
+
+    search_result = find_item_by_id(item_id)
+    
+    if search_result == [] or search_result is None:
+        print("Empty search result")
+        return {'error':'Item Not Found!'}, 200
+    
+    found_item = search_result[0]
+    
+    del found_item['desc']
+    found_item['desc'] = desc
+    
+    return jsonify(found_item), 200
+
 def create_data():
     with open('../static/items.json', "r") as f:
         data = json.load(f)
